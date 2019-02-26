@@ -1,6 +1,6 @@
-// NoService/services/gotoandPlay/entry.js
+// NoService/services/GotoNPlay/entry.js
 // Description:
-// "gotoandPlay/entry.js" description.
+// "GotoNPlay/entry.js" description.
 // Copyright 2018 NOOXY. All Rights Reserved.
 'use strict';
 
@@ -8,35 +8,50 @@ function Service(Me, NoService) {
   // Initialize your service here synchronous. Do not use async here!
 
   // Get the service socket of your service
-  let ss = NoService.Service.ServiceSocket;
+  let ServiceSock = NoService.Service.ServiceSocket;
   // BEWARE! To prevent callback error crash the system.
   // If you call an callback function which is not NoService provided. Such as setTimeout(callback, timeout).
   // You need to wrap the callback funciton by NoService.SafeCallback.
   // E.g. setTimeout(NoService.SafeCallback(callback), timeout)
   let safec = NoService.SafeCallback;
 
-  // import NoService to gotoandPlay module
-  const gotoandPlay = new (require('./gotoandPlay'))(Me, NoService);
+  // import NoService to GotoNPlay module
+  const GotoNPlay = new (require('./gotoandPlay'))(Me, NoService);
 
-  // JSONfunction is a function that can be defined, which others entities can call.
-  // It is a NOOXY Service Framework Standard
-  ss.def('JSONfunction', (json, entityID, returnJSON)=> {
-    gotoandPlay.whateverfunction((err, msg)=> {
-      // Code here for JSONfunciton
-      // Return Value for JSONfunction call. Otherwise remote will not recieve funciton return value.
-      let json_be_returned = {
-        d: 'Hello! NOOXY Service Framework!',
-        msg: msg
-      }
-      // First parameter for error, next is JSON to be returned.
-      returnJSON(false, json_be_returned);
+  GotoNPlay.on('OnlineCountChanged', ()=> {
+    ServiceSock.broadcastEvent();
+  });
+
+  ServiceSock.def('searchPlayList', (json, entityID, returnJSON)=> {
+    returnJSON(false, null);
+  });
+
+  ServiceSock.def('getCatogoryPlayLists', (json, entityID, returnJSON)=> {
+    returnJSON(false, null);
+  });
+
+  ServiceSock.def('getPlaylistMeta', (json, entityID, returnJSON)=> {
+    returnJSON(false, null);
+  });
+
+  ServiceSock.def('getPlaylistItems', (json, entityID, returnJSON)=> {
+    returnJSON(false, null);
+  });
+
+  ServiceSock.def('getAudioBase64', (json, entityID, returnJSON)=> {
+    returnJSON(false, null);
+  });
+
+  ServiceSock.def('getOnlineCount', (json, entityID, returnJSON)=> {
+    NoService.Service.Entity.getfliteredEntitiesList("service=gotoandPlay,mode=normal", (err, list)=> {
+      returnJSON(false, {r:list.length});
     });
   });
 
-  // Safe define a JSONfunction.
-  ss.sdef('SafeJSONfunction', (json, entityID, returnJSON)=> {
+  // Safe define a ServiceFunction.
+  ServiceSock.sdef('editPlaylistMeta', (json, entityID, returnJSON)=> {
     // Code here for JSONfunciton
-    // Return Value for JSONfunction call. Otherwise remote will not recieve funciton return value.
+    // Return Value for ServiceFunction call. Otherwise remote will not recieve funciton return value.
     let json_be_returned = {
       d: 'Hello! NOOXY Service Framework!'
     }
@@ -48,56 +63,33 @@ function Service(Me, NoService) {
     console.log('Auth Failed.');
   });
 
-  // ServiceSocket.onData, in case client send data to this Service.
-  // You will need entityID to Authorize remote user. And identify remote.
-  ss.on('data', (entityID, data) => {
-    // Get Username and process your work.
-    NoService.Service.Entity.getEntityOwner(entityID, (err, username)=> {
-      // To store your data and associated with userid INSEAD OF USERNAME!!!
-      // Since userid can be promised as a unique identifer!!!
-      let userid = null;
-      // Get userid from NoService
-      NoService.Authenticity.getUserIdByUsername(username, (err, id) => {
-        userid = id;
-      });
-      // process you operation here
-      console.log('recieved a data');
-      console.log(data);
-    });
+  // Safe define a ServiceFunction.
+  ServiceSock.sdef('addPlaylistItems', (json, entityID, returnJSON)=> {
+    // Code here for JSONfunciton
+    // Return Value for ServiceFunction call. Otherwise remote will not recieve funciton return value.
+    let json_be_returned = {
+      d: 'Hello! NOOXY Service Framework!'
+    }
+    // First parameter for error, next is JSON to be returned.
+    returnJSON(false, json_be_returned);
+  },
+  // In case fail.
+  ()=>{
+    console.log('Auth Failed.');
   });
-  // Send data to client.
-  ss.sendData('A entity ID', 'My data to be transfer.');
+
   // ServiceSocket.onConnect, in case on new connection.
-  ss.on('connect', (entityID, callback) => {
-    // Do something.
-    // report error;
+  ServiceSock.on('connect', (entityID, callback) => {
     callback(false);
   });
   // ServiceSocket.onClose, in case connection close.
-  ss.on('close', (entityID, callback) => {
-    // Get Username and process your work.
-    NoService.Service.Entity.getEntityOwner(entityID, (err, username)=> {
-      // To store your data and associated with userid INSEAD OF USERNAME!!!
-      // Since userid can be promised as a unique identifer!!!
-      let userid = null;
-      // Get userid from NoService
-      NoService.Authenticity.getUserIdByUsername(username, (err, id) => {
-        userid = id;
-      });
-      // process you operation here
-      console.log('ServiceSocket closed');
-      // report error;
-      callback(false);
-    });
+  ServiceSock.on('close', (entityID, callback) => {
+    callback(false);
   });
 
   // Here is where your service start
   this.start = ()=> {
-    gotoandPlay.launch();
-    // Access another service on this daemon
-    NoService.Service.ActivitySocket.createDefaultAdminDeamonSocket('Another Service', (err, activitysocket)=> {
-      // accessing other service
-    });
+    GotoNPlay.launch();
 
   }
 
@@ -106,7 +98,7 @@ function Service(Me, NoService) {
     // Close your service here synchronous. Do not use async here!
     // Saving state of you service.
     // Please save and manipulate your files in this directory
-    gotoandPlay.close();
+    GotoNPlay.close();
   }
 }
 

@@ -1,13 +1,35 @@
 {
-  "Example": {
+  "PlayListMeta": {
     "model_type": "Object",
     "do_timestamp": true,
-    "model_key": "property1",
+    "model_key": "PlayListId",
     "structure": {
-      "property1" : "VARCHAR(255)",
-      "property2" : "VARCHAR(320)",
-      "property3" : "INTEGER",
-      "property4" : "DATE"
+      "Title" : "VARCHAR(255)",
+      "Description" : "VARCHAR(320)",
+      "Photo" : "INTEGER",
+      "ItemOrder" : "TEXT"
     }
   },
+
+  "PlayListItem": {
+    "model_type": "GroupIndexedList",
+    "do_timestamp": true,
+    "structure": {
+      "Title": "VARCHAR(255)",
+      "AudioBase64": "TEXT"
+    }
+  },
+
+  "CatogoryToPlayLists": {
+    
+  },
+
+  "PlayListTagPair": {
+    "model_type": "Pair",
+    "do_timestamp": false,
+    "model_key": ["PlayListId", "Tag"],
+    "structure": {
+      "PlayListId": "VARCHAR(255)"
+    }
+  }
 }
