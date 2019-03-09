@@ -44,16 +44,16 @@ function Service(Me, NoService) {
     });
   });
 
-  // Get playlist's items in list by playlist id
-  ServiceSock.def('getPlaylistItems', (json, entityID, returnJSON)=> {
-    GotoNPlay.getPlaylistItems(json.id, (err, result)=> {
+  // Get playlist's tracks in list by playlist id
+  ServiceSock.def('getPlaylistTracks', (json, entityID, returnJSON)=> {
+    GotoNPlay.getPlaylistTracks(json.id, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });
 
-  // Get playlist's items in list by playlist id
+  // Get playlist's tracks in list by playlist id
   ServiceSock.def('getAudioBase64', (json, entityID, returnJSON)=> {
-    GotoNPlay.getPlaylistItems(json.id, json.it, (err, result)=> {
+    GotoNPlay.getPlaylistTracks(json.id, json.it, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });
@@ -94,8 +94,8 @@ function Service(Me, NoService) {
     });
   });
 
-  // Append an item to the existed list.
-  ServiceSock.sdef('addPlaylistItems', (json, entityID, returnJSON)=> {
+  // Append an track to the existed list.
+  ServiceSock.sdef('addPlaylistTracks', (json, entityID, returnJSON)=> {
     GotoNPlay.editPlaylistMeta(json.id, json.mt, (err, result)=> {
       returnJSON(false, {r: result});
     });
@@ -123,6 +123,32 @@ function Service(Me, NoService) {
   // edit a catogory that contains playlists
   ServiceSock.sdef('editCatogory', (json, entityID, returnJSON)=> {
     GotoNPlay.editCatogory(json.id, json.mt, (err)=> {
+      returnJSON(false, {e: err});
+    });
+  },
+  // In case auth fail.
+  ()=>{
+    NoService.Service.getEntityOwner(entityID, (err, username)=> {
+      console.log('GotoNPlay editPlaylistMeta Auth Failed. Username: '+username);
+    });
+  });
+
+  // edit a catogory that contains playlists
+  ServiceSock.sdef('addPlayListTags', (json, entityID, returnJSON)=> {
+    GotoNPlay.addPlayListTags(json.tg, (err)=> {
+      returnJSON(false, {e: err});
+    });
+  },
+  // In case auth fail.
+  ()=>{
+    NoService.Service.getEntityOwner(entityID, (err, username)=> {
+      console.log('GotoNPlay editPlaylistMeta Auth Failed. Username: '+username);
+    });
+  });
+
+  // edit a catogory that contains playlists
+  ServiceSock.sdef('removePlayListTags', (json, entityID, returnJSON)=> {
+    GotoNPlay.removePlayListTags(json.tg, (err)=> {
       returnJSON(false, {e: err});
     });
   },

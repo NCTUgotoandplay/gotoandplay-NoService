@@ -74,9 +74,9 @@
       }
     },
 
-    "getPlaylistItems": {
-      "displayname": "get playlist's items",
-      "description": "Get playlist's items in list by playlist id",
+    "getPlaylistTracks": {
+      "displayname": "get playlist's tracks",
+      "description": "Get playlist's tracks in list by playlist id",
       "secure": false,
       "protocol": {
         "call": {
@@ -90,13 +90,13 @@
     },
 
     "getAudioBase64": {
-      "displayname": "get playlist's item audio base64",
-      "description": "Get playlist's items in list by playlist id",
+      "displayname": "get playlist's track audio base64",
+      "description": "Get playlist's tracks in list by playlist id",
       "secure": false,
       "protocol": {
         "call": {
           "id": "playlist id",
-          "it": "item's order"
+          "it": "track's order"
         },
         "return": {
           "e": "error status",
@@ -106,13 +106,13 @@
     },
 
     "getAudioBase64": {
-      "displayname": "get playlist's item audio base64",
-      "description": "Get playlist's items in list by playlist id",
+      "displayname": "get playlist's track audio base64",
+      "description": "Get playlist's tracks in list by playlist id",
       "secure": false,
       "protocol": {
         "call": {
           "id": "playlist id",
-          "it": "item's order"
+          "it": "track's order"
         },
         "return": {
           "e": "error status",
@@ -122,7 +122,7 @@
     },
 
     "createPlaylist": {
-      "displayname": "add a playlist item",
+      "displayname": "add a playlist track",
       "description": "Create a playlist that contains audio sources",
       "secure": true,
       "protocol": {
@@ -151,14 +151,14 @@
       }
     },
 
-    "addPlaylistItem": {
-      "displayname": "add a playlist item",
-      "description": "Append an item to the existed list",
+    "addPlaylistTrack": {
+      "displayname": "add a playlist track",
+      "description": "Append an track to the existed list",
       "secure": true,
       "protocol": {
         "call": {
           "id": "playlist id",
-          "it": "items's meta including AudioBase64"
+          "it": "tracks's meta including AudioBase64"
         },
         "return": {
           "e": "error status"
@@ -190,6 +190,34 @@
         "call": {
           "id": "catogory id",
           "mt": "catogory's meta"
+        },
+        "return": {
+          "e": "error status"
+        }
+      }
+    },
+
+    "addPlayListTags": {
+      "displayname": "add playlisttags",
+      "description": "Add playlist tags by list",
+      "secure": true,
+      "protocol": {
+        "call": {
+          "tg": [["playlist id", "tag"]]
+        },
+        "return": {
+          "e": "error status"
+        }
+      }
+    },
+
+    "removePlayListTags": {
+      "displayname": "remove playlisttags",
+      "description": "Remove playlist tags by list",
+      "secure": true,
+      "protocol": {
+        "call": {
+          "tg": [["playlist id", "tag"]]
         },
         "return": {
           "e": "error status"

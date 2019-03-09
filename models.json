@@ -4,24 +4,35 @@
     "do_timestamp": true,
     "model_key": "PlayListId",
     "structure": {
+      "PlayListId": "VARCHAR(255)",
       "Title" : "VARCHAR(255)",
       "Description" : "VARCHAR(320)",
-      "Photo" : "INTEGER",
-      "ItemOrder" : "TEXT"
+      "ThumbNailBase64" : "TEXT",
+      "TracksOrder" : "TEXT"
     }
   },
 
-  "PlayListItem": {
+  "PlayListTrack": {
     "model_type": "GroupIndexedList",
     "do_timestamp": true,
     "structure": {
       "Title": "VARCHAR(255)",
+      "Description": "VARCHAR(320)",
       "AudioBase64": "TEXT"
     }
   },
 
-  "CatogoryToPlayLists": {
-    
+  "Catogory": {
+    "model_type": "Object",
+    "do_timestamp": true,
+    "model_key": "CatogoryId",
+    "structure": {
+      "PlayListId": "CatogoryId",
+      "Title" : "VARCHAR(255)",
+      "Description" : "VARCHAR(320)",
+      "ThumbNailBase64" : "TEXT",
+      "PlayLists" : "TEXT"
+    }
   },
 
   "PlayListTagPair": {
@@ -29,7 +40,8 @@
     "do_timestamp": false,
     "model_key": ["PlayListId", "Tag"],
     "structure": {
-      "PlayListId": "VARCHAR(255)"
+      "PlayListId": "VARCHAR(255)",
+      "Tag": "VARCHAR(255)"
     }
   }
 }
