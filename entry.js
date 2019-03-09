@@ -9,88 +9,146 @@ function Service(Me, NoService) {
 
   // Get the service socket of your service
   let ServiceSock = NoService.Service.ServiceSocket;
-  // BEWARE! To prevent callback error crash the system.
-  // If you call an callback function which is not NoService provided. Such as setTimeout(callback, timeout).
-  // You need to wrap the callback funciton by NoService.SafeCallback.
-  // E.g. setTimeout(NoService.SafeCallback(callback), timeout)
-  let safec = NoService.SafeCallback;
+  let online_count = 0;
 
   // import NoService to GotoNPlay module
   const GotoNPlay = new (require('./gotoandPlay'))(Me, NoService);
 
-  GotoNPlay.on('OnlineCountChanged', ()=> {
-    ServiceSock.broadcastEvent();
-  });
+  // Start defining servicefunctions
 
+  // Input query and find playlist that match the result.
   ServiceSock.def('searchPlayList', (json, entityID, returnJSON)=> {
-    returnJSON(false, null);
+    GotoNPlay.searchPlayList(json.q, (err, result)=> {
+      returnJSON(false, {r: result});
+    });
   });
 
+  // Get all gotoandPlay playlist catogroies.
+  ServiceSock.def('getAllCatogories', (json, entityID, returnJSON)=> {
+    GotoNPlay.getAllCatogories((err, result)=> {
+      returnJSON(false, {r: result});
+    });
+  });
+
+  // Input catogory id and find playlist that match the result.
   ServiceSock.def('getCatogoryPlayLists', (json, entityID, returnJSON)=> {
-    returnJSON(false, null);
+    GotoNPlay.getCatogoryPlayLists(json.id, (err, result)=> {
+      returnJSON(false, {r: result});
+    });
   });
 
+  // Get playlist detail information by playlist id
   ServiceSock.def('getPlaylistMeta', (json, entityID, returnJSON)=> {
-    returnJSON(false, null);
+    GotoNPlay.getPlaylistMeta(json.id, (err, result)=> {
+      returnJSON(false, {r: result});
+    });
   });
 
+  // Get playlist's items in list by playlist id
   ServiceSock.def('getPlaylistItems', (json, entityID, returnJSON)=> {
-    returnJSON(false, null);
+    GotoNPlay.getPlaylistItems(json.id, (err, result)=> {
+      returnJSON(false, {r: result});
+    });
   });
 
+  // Get playlist's items in list by playlist id
   ServiceSock.def('getAudioBase64', (json, entityID, returnJSON)=> {
-    returnJSON(false, null);
+    GotoNPlay.getPlaylistItems(json.id, json.it, (err, result)=> {
+      returnJSON(false, {r: result});
+    });
   });
 
+  // Get current online count
   ServiceSock.def('getOnlineCount', (json, entityID, returnJSON)=> {
     NoService.Service.Entity.getfliteredEntitiesList("service=gotoandPlay,mode=normal", (err, list)=> {
       returnJSON(false, {r:list.length});
     });
   });
 
-  // Safe define a ServiceFunction.
-  ServiceSock.sdef('editPlaylistMeta', (json, entityID, returnJSON)=> {
-    // Code here for JSONfunciton
-    // Return Value for ServiceFunction call. Otherwise remote will not recieve funciton return value.
-    let json_be_returned = {
-      d: 'Hello! NOOXY Service Framework!'
-    }
-    // First parameter for error, next is JSON to be returned.
-    returnJSON(false, json_be_returned);
+
+  // Below operations should be accesible only for superuser
+
+  // Create a playlist that contains audio sources
+  ServiceSock.sdef('createPlaylist', (json, entityID, returnJSON)=> {
+    GotoNPlay.createPlaylist(json.id, json.mt, (err, result)=> {
+      returnJSON(false, {r: result});
+    });
   },
-  // In case fail.
+  // In case auth fail.
   ()=>{
-    console.log('Auth Failed.');
+    NoService.Service.getEntityOwner(entityID, (err, username)=> {
+      console.log('GotoNPlay editPlaylistMeta Auth Failed. Username: '+username);
+    });
   });
 
-  // Safe define a ServiceFunction.
-  ServiceSock.sdef('addPlaylistItems', (json, entityID, returnJSON)=> {
-    // Code here for JSONfunciton
-    // Return Value for ServiceFunction call. Otherwise remote will not recieve funciton return value.
-    let json_be_returned = {
-      d: 'Hello! NOOXY Service Framework!'
-    }
-    // First parameter for error, next is JSON to be returned.
-    returnJSON(false, json_be_returned);
+  // Edit playlist's detail information
+  ServiceSock.sdef('editPlaylistMeta', (json, entityID, returnJSON)=> {
+    GotoNPlay.editPlaylistMeta(json.id, json.mt, (err, result)=> {
+      returnJSON(false, {r: result});
+    });
   },
-  // In case fail.
+  // In case auth fail.
   ()=>{
-    console.log('Auth Failed.');
+    NoService.Service.getEntityOwner(entityID, (err, username)=> {
+      console.log('GotoNPlay editPlaylistMeta Auth Failed. Username: '+username);
+    });
   });
+
+  // Append an item to the existed list.
+  ServiceSock.sdef('addPlaylistItems', (json, entityID, returnJSON)=> {
+    GotoNPlay.editPlaylistMeta(json.id, json.mt, (err, result)=> {
+      returnJSON(false, {r: result});
+    });
+  },
+  // In case auth fail.
+  ()=>{
+    NoService.Service.getEntityOwner(entityID, (err, username)=> {
+      console.log('GotoNPlay editPlaylistMeta Auth Failed. Username: '+username);
+    });
+  });
+
+  // Create a catogory that contains playlists
+  ServiceSock.sdef('createCatogory', (json, entityID, returnJSON)=> {
+    GotoNPlay.createCatogory(json.mt, (err, result)=> {
+      returnJSON(false, {r: result});
+    });
+  },
+  // In case auth fail.
+  ()=>{
+    NoService.Service.getEntityOwner(entityID, (err, username)=> {
+      console.log('GotoNPlay editPlaylistMeta Auth Failed. Username: '+username);
+    });
+  });
+
+  // edit a catogory that contains playlists
+  ServiceSock.sdef('editCatogory', (json, entityID, returnJSON)=> {
+    GotoNPlay.editCatogory(json.id, json.mt, (err)=> {
+      returnJSON(false, {e: err});
+    });
+  },
+  // In case auth fail.
+  ()=>{
+    NoService.Service.getEntityOwner(entityID, (err, username)=> {
+      console.log('GotoNPlay editPlaylistMeta Auth Failed. Username: '+username);
+    });
+  });
+
 
   // ServiceSocket.onConnect, in case on new connection.
   ServiceSock.on('connect', (entityID, callback) => {
+    online_count++;
+    ServiceSock.broadcastEvent("OnlineCountChanged", {c: online_count});
     callback(false);
   });
   // ServiceSocket.onClose, in case connection close.
   ServiceSock.on('close', (entityID, callback) => {
+    online_count--;
     callback(false);
   });
 
   // Here is where your service start
   this.start = ()=> {
     GotoNPlay.launch();
-
   }
 
   // If the daemon stop, your service recieve close signal here.

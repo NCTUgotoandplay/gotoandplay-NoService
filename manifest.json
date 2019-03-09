@@ -1,10 +1,10 @@
 {
   "name": "gotoandPlay",
   "version": "0.0.0",
-  "displayname": "Service fullname",
-  "description": "Service description",
-  "Authors": [],
-  "git_url": null,
+  "displayname": "gotoandPlay",
+  "description": "Service for gotoandPlay website",
+  "Authors": ["noowyee"],
+  "git_url": "https://github.com/NCTUgotoandplay/gotoandplay-NoService",
   "upgrade_branch": "master",
   "implementation_api": false,
   "LibraryAPI": true,
@@ -13,17 +13,186 @@
     "node_packages": {},
     "services": {}
   },
+
   "servicefunctions": {
-    "func1": {
-      "displayname": "servicefunction 1",
-      "description": "ServiceFunciton description.",
+    "searchPlayList": {
+      "displayname": "search playlist",
+      "description": "Input query and find playlist that match the result",
       "secure": false,
       "protocol": {
         "call": {
-          "p1": "Hello from activity!"
+          "q": "query"
         },
         "return": {
-          "p1": "Hello from service!"
+          "e": "error status",
+          "r": "result"
+        }
+      }
+    },
+
+    "getAllCatogories": {
+      "displayname": "get all catogories",
+      "description": "Get all gotoandPlay playlist catogroies",
+      "secure": false,
+      "protocol": {
+        "call": {
+        },
+        "return": {
+          "e": "error status",
+          "r": "result"
+        }
+      }
+    },
+
+    "getCatogoryPlayLists": {
+      "displayname": "get catogory's playlist",
+      "description": "Input catogory id and find playlist that match the result",
+      "secure": false,
+      "protocol": {
+        "call": {
+          "id": "catogory id"
+        },
+        "return": {
+          "e": "error status",
+          "r": "result"
+        }
+      }
+    },
+
+    "getPlaylistMeta": {
+      "displayname": "get playlist meta",
+      "description": "Get playlist detail information by playlist id",
+      "secure": false,
+      "protocol": {
+        "call": {
+          "id": "playlist id"
+        },
+        "return": {
+          "e": "error status",
+          "r": "result"
+        }
+      }
+    },
+
+    "getPlaylistItems": {
+      "displayname": "get playlist's items",
+      "description": "Get playlist's items in list by playlist id",
+      "secure": false,
+      "protocol": {
+        "call": {
+          "id": "playlist id"
+        },
+        "return": {
+          "e": "error status",
+          "r": "result"
+        }
+      }
+    },
+
+    "getAudioBase64": {
+      "displayname": "get playlist's item audio base64",
+      "description": "Get playlist's items in list by playlist id",
+      "secure": false,
+      "protocol": {
+        "call": {
+          "id": "playlist id",
+          "it": "item's order"
+        },
+        "return": {
+          "e": "error status",
+          "r": "result"
+        }
+      }
+    },
+
+    "getAudioBase64": {
+      "displayname": "get playlist's item audio base64",
+      "description": "Get playlist's items in list by playlist id",
+      "secure": false,
+      "protocol": {
+        "call": {
+          "id": "playlist id",
+          "it": "item's order"
+        },
+        "return": {
+          "e": "error status",
+          "r": "result"
+        }
+      }
+    },
+
+    "createPlaylist": {
+      "displayname": "add a playlist item",
+      "description": "Create a playlist that contains audio sources",
+      "secure": true,
+      "protocol": {
+        "call": {
+          "mt": "playlist meta"
+        },
+        "return": {
+          "e": "error status",
+          "r": "result"
+        }
+      }
+    },
+
+    "editPlaylistMeta": {
+      "displayname": "edit playlist metadata",
+      "description": "Edit playlist's detail information",
+      "secure": true,
+      "protocol": {
+        "call": {
+          "id": "playlist id",
+          "mt": "playlist meta"
+        },
+        "return": {
+          "e": "error status"
+        }
+      }
+    },
+
+    "addPlaylistItem": {
+      "displayname": "add a playlist item",
+      "description": "Append an item to the existed list",
+      "secure": true,
+      "protocol": {
+        "call": {
+          "id": "playlist id",
+          "it": "items's meta including AudioBase64"
+        },
+        "return": {
+          "e": "error status"
+        }
+      }
+    },
+
+    "createCatogory": {
+      "displayname": "create a catogory",
+      "description": "Create a catogory that contains playlists",
+      "secure": true,
+      "protocol": {
+        "call": {
+          "mt": "catogory's meta"
+        },
+        "return": {
+          "e": "error status",
+          "id": "catogory id"
+        }
+      }
+    },
+
+
+    "editCatogory": {
+      "displayname": "edit a catogory",
+      "description": "Edit a catogory",
+      "secure": true,
+      "protocol": {
+        "call": {
+          "id": "catogory id",
+          "mt": "catogory's meta"
+        },
+        "return": {
+          "e": "error status"
         }
       }
     }
