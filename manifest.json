@@ -44,7 +44,7 @@
       }
     },
 
-    "getCatogoryPlaylists": {
+    "getCatogoryMeta": {
       "displayname": "get catogory's playlist",
       "description": "Input catogory id and find playlist that match the result",
       "secure": false,

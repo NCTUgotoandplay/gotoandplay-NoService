@@ -31,8 +31,8 @@ function Service(Me, NoService) {
   });
 
   // Input catogory id and find playlist that match the result.
-  ServiceSock.def('getCatogoryPlaylists', (json, entityID, returnJSON)=> {
-    GotoNPlay.getCatogoryPlaylists(json.id, (err, result)=> {
+  ServiceSock.def('getCatogoryMeta', (json, entityID, returnJSON)=> {
+    GotoNPlay.getCatogoryMeta(json.id, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });

@@ -33,24 +33,42 @@ function gotoandPlay(Me, NoService) {
     });
   };
 
-  this.searchPlayList = ()=> {
-
+  this.searchPlaylist = (query, callback)=> {
+    _models.Playlist.searchAll(query, (err, result)=> {
+      if(err) {
+        callback(err);
+      }
+      else {
+        let _dict = {};
+        for(let i=0; i<result.length; i++) {
+          _dict[result[i].PlaylistId] = result[i];
+        }
+        callback(err, _dict);
+      }
+    });
   };
 
-  this.getAllCatogories = ()=> {
-
+  this.getAllCatogories = (callback)=> {
+    _models.Catogory.getAll((err, result)=> {
+      if(err) {
+        callback(err);
+      }
+      else {
+        let _dict = {};
+        for(let i=0; i<result.length; i++) {
+          _dict[result[i].CatogoryId] = result[i];
+        }
+        callback(err, _dict);
+      }
+    });
   };
 
-  this.getAllCatogories = ()=> {
-
+  this.getCatogoryMeta = (catogoryid, callback)=> {
+    _models.Catogory.get(catogoryid, callback);
   };
 
-  this.getCatogoryPlayLists = ()=> {
-
-  };
-
-  this.getPlaylistMeta = ()=> {
-
+  this.getPlaylistMeta = (playlistid, callback)=> {
+    _models.Playlist.get(playlistid, callback);
   };
 
   this.getPlaylistTracks = ()=> {
@@ -58,10 +76,6 @@ function gotoandPlay(Me, NoService) {
   };
 
   this.getAudioBase64 = ()=> {
-
-  };
-
-  this.getOnlineCount = ()=> {
 
   };
 

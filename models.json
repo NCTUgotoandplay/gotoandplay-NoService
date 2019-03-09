@@ -1,5 +1,5 @@
 {
-  "PlaylistMeta": {
+  "Playlist": {
     "model_type": "Object",
     "do_timestamp": true,
     "model_key": "PlaylistId",
@@ -12,7 +12,7 @@
     }
   },
 
-  "PlaylistTrack": {
+  "Track": {
     "model_type": "GroupIndexedList",
     "do_timestamp": true,
     "structure": {
@@ -27,7 +27,7 @@
     "do_timestamp": true,
     "model_key": "CatogoryId",
     "structure": {
-      "PlaylistId": "CatogoryId",
+      "CatogoryId": "VARCHAR(255)",
       "Title" : "VARCHAR(255)",
       "Description" : "VARCHAR(320)",
       "ThumbNailBase64" : "TEXT",
