@@ -17,8 +17,8 @@ function Service(Me, NoService) {
   // Start defining servicefunctions
 
   // Input query and find playlist that match the result.
-  ServiceSock.def('searchPlayList', (json, entityID, returnJSON)=> {
-    GotoNPlay.searchPlayList(json.q, (err, result)=> {
+  ServiceSock.def('searchPlaylist', (json, entityID, returnJSON)=> {
+    GotoNPlay.searchPlaylist(json.q, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });
@@ -31,8 +31,8 @@ function Service(Me, NoService) {
   });
 
   // Input catogory id and find playlist that match the result.
-  ServiceSock.def('getCatogoryPlayLists', (json, entityID, returnJSON)=> {
-    GotoNPlay.getCatogoryPlayLists(json.id, (err, result)=> {
+  ServiceSock.def('getCatogoryPlaylists', (json, entityID, returnJSON)=> {
+    GotoNPlay.getCatogoryPlaylists(json.id, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });
@@ -134,8 +134,8 @@ function Service(Me, NoService) {
   });
 
   // edit a catogory that contains playlists
-  ServiceSock.sdef('addPlayListTags', (json, entityID, returnJSON)=> {
-    GotoNPlay.addPlayListTags(json.tg, (err)=> {
+  ServiceSock.sdef('addPlaylistTags', (json, entityID, returnJSON)=> {
+    GotoNPlay.addPlaylistTags(json.tg, (err)=> {
       returnJSON(false, {e: err});
     });
   },
@@ -147,8 +147,8 @@ function Service(Me, NoService) {
   });
 
   // edit a catogory that contains playlists
-  ServiceSock.sdef('removePlayListTags', (json, entityID, returnJSON)=> {
-    GotoNPlay.removePlayListTags(json.tg, (err)=> {
+  ServiceSock.sdef('removePlaylistTags', (json, entityID, returnJSON)=> {
+    GotoNPlay.removePlaylistTags(json.tg, (err)=> {
       returnJSON(false, {e: err});
     });
   },

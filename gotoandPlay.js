@@ -33,6 +33,66 @@ function gotoandPlay(Me, NoService) {
     });
   };
 
+  this.searchPlayList = ()=> {
+
+  };
+
+  this.getAllCatogories = ()=> {
+
+  };
+
+  this.getAllCatogories = ()=> {
+
+  };
+
+  this.getCatogoryPlayLists = ()=> {
+
+  };
+
+  this.getPlaylistMeta = ()=> {
+
+  };
+
+  this.getPlaylistTracks = ()=> {
+
+  };
+
+  this.getAudioBase64 = ()=> {
+
+  };
+
+  this.getOnlineCount = ()=> {
+
+  };
+
+  this.createPlaylist = ()=> {
+
+  };
+
+  this.editPlaylistMeta = ()=> {
+
+  };
+
+  this.addPlaylistTracks = ()=> {
+
+  };
+
+  this.createCatogory = ()=> {
+
+  };
+
+  this.editCatogory = ()=> {
+
+  };
+
+  this.addPlaylistTags = ()=> {
+
+  };
+
+  this.removePlaylistTags = ()=> {
+
+  };
+
   this.close = ()=> {
 
   };

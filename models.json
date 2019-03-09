@@ -1,10 +1,10 @@
 {
-  "PlayListMeta": {
+  "PlaylistMeta": {
     "model_type": "Object",
     "do_timestamp": true,
-    "model_key": "PlayListId",
+    "model_key": "PlaylistId",
     "structure": {
-      "PlayListId": "VARCHAR(255)",
+      "PlaylistId": "VARCHAR(255)",
       "Title" : "VARCHAR(255)",
       "Description" : "VARCHAR(320)",
       "ThumbNailBase64" : "TEXT",
@@ -12,7 +12,7 @@
     }
   },
 
-  "PlayListTrack": {
+  "PlaylistTrack": {
     "model_type": "GroupIndexedList",
     "do_timestamp": true,
     "structure": {
@@ -27,20 +27,20 @@
     "do_timestamp": true,
     "model_key": "CatogoryId",
     "structure": {
-      "PlayListId": "CatogoryId",
+      "PlaylistId": "CatogoryId",
       "Title" : "VARCHAR(255)",
       "Description" : "VARCHAR(320)",
       "ThumbNailBase64" : "TEXT",
-      "PlayLists" : "TEXT"
+      "Playlists" : "TEXT"
     }
   },
 
-  "PlayListTagPair": {
+  "PlaylistTagPair": {
     "model_type": "Pair",
     "do_timestamp": false,
-    "model_key": ["PlayListId", "Tag"],
+    "model_key": ["PlaylistId", "Tag"],
     "structure": {
-      "PlayListId": "VARCHAR(255)",
+      "PlaylistId": "VARCHAR(255)",
       "Tag": "VARCHAR(255)"
     }
   }
