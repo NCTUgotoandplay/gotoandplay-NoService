@@ -7,7 +7,7 @@
 # Install
 launch you NoService framework and type
 ```
-service git install gotoandplay-NoService/gotoandPlay github
+service git install NCTUgotoandplay/gotoandplay-NoService github
 ```
 
 # Upgrade
