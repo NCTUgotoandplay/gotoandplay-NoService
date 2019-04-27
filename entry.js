@@ -65,9 +65,7 @@ function Service(Me, NoService) {
 
   // Get current online count
   ServiceSock.def('getOnlineCount', (data, entityID, returnJSON)=> {
-    NoService.Service.Entity.getfliteredEntitiesList("service=gotoandPlay,mode=normal", (err, list)=> {
-      returnJSON(false, {r:list.length});
-    });
+    returnJSON(false, online_count);
   });
 
 
@@ -168,12 +166,13 @@ function Service(Me, NoService) {
   // ServiceSocket.onConnect, in case on new connection.
   ServiceSock.on('connect', (entityID, callback) => {
     online_count++;
-    ServiceSock.emitAll("OnlineCountChanged", {c: online_count});
+    ServiceSock.emitAll("OnlineCountChanged", online_count);
     callback(false);
   });
   // ServiceSocket.onClose, in case connection close.
   ServiceSock.on('close', (entityID, callback) => {
     online_count--;
+    ServiceSock.emitAll("OnlineCountChanged", online_count);
     callback(false);
   });
 
