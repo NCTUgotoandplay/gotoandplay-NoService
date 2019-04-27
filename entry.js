@@ -15,51 +15,56 @@ function Service(Me, NoService) {
   const GotoNPlay = new (require('./gotoandPlay'))(Me, NoService);
 
   // Start defining servicefunctions
+  // Push notification.
+  ServiceSock.def('pushNotification', (data, entityID, returnJSON)=> {
+    ServiceSock.emitAll('Notification', data);
+    returnJSON(false, null);
+  });
 
   // Input query and find playlist that match the result.
-  ServiceSock.def('searchPlaylist', (json, entityID, returnJSON)=> {
-    GotoNPlay.searchPlaylist(json.q, (err, result)=> {
+  ServiceSock.def('searchPlaylist', (data, entityID, returnJSON)=> {
+    GotoNPlay.searchPlaylist(data.q, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });
 
   // Get all gotoandPlay playlist catogroies.
-  ServiceSock.def('getAllCatogories', (json, entityID, returnJSON)=> {
+  ServiceSock.def('getAllCatogories', (data, entityID, returnJSON)=> {
     GotoNPlay.getAllCatogories((err, result)=> {
       returnJSON(false, {r: result});
     });
   });
 
   // Input catogory id and find playlist that match the result.
-  ServiceSock.def('getCatogoryMeta', (json, entityID, returnJSON)=> {
-    GotoNPlay.getCatogoryMeta(json.id, (err, result)=> {
+  ServiceSock.def('getCatogoryMeta', (data, entityID, returnJSON)=> {
+    GotoNPlay.getCatogoryMeta(data.id, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });
 
   // Get playlist detail information by playlist id
-  ServiceSock.def('getPlaylistMeta', (json, entityID, returnJSON)=> {
-    GotoNPlay.getPlaylistMeta(json.id, (err, result)=> {
+  ServiceSock.def('getPlaylistMeta', (data, entityID, returnJSON)=> {
+    GotoNPlay.getPlaylistMeta(data.id, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });
 
   // Get playlist's tracks in list by playlist id
-  ServiceSock.def('getPlaylistTracks', (json, entityID, returnJSON)=> {
-    GotoNPlay.getPlaylistTracks(json.id, (err, result)=> {
+  ServiceSock.def('getPlaylistTracks', (data, entityID, returnJSON)=> {
+    GotoNPlay.getPlaylistTracks(data.id, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });
 
   // Get playlist's tracks in list by playlist id
-  ServiceSock.def('getAudioBase64', (json, entityID, returnJSON)=> {
-    GotoNPlay.getPlaylistTracks(json.id, json.it, (err, result)=> {
+  ServiceSock.def('getAudioBase64', (data, entityID, returnJSON)=> {
+    GotoNPlay.getPlaylistTracks(data.id, data.it, (err, result)=> {
       returnJSON(false, {r: result});
     });
   });
 
   // Get current online count
-  ServiceSock.def('getOnlineCount', (json, entityID, returnJSON)=> {
+  ServiceSock.def('getOnlineCount', (data, entityID, returnJSON)=> {
     NoService.Service.Entity.getfliteredEntitiesList("service=gotoandPlay,mode=normal", (err, list)=> {
       returnJSON(false, {r:list.length});
     });
@@ -69,8 +74,8 @@ function Service(Me, NoService) {
   // Below operations should be accesible only for superuser
 
   // Create a playlist that contains audio sources
-  ServiceSock.sdef('createPlaylist', (json, entityID, returnJSON)=> {
-    GotoNPlay.createPlaylist(json.id, json.mt, (err, result)=> {
+  ServiceSock.sdef('createPlaylist', (data, entityID, returnJSON)=> {
+    GotoNPlay.createPlaylist(data.id, data.mt, (err, result)=> {
       returnJSON(false, {r: result});
     });
   },
@@ -82,8 +87,8 @@ function Service(Me, NoService) {
   });
 
   // Edit playlist's detail information
-  ServiceSock.sdef('editPlaylistMeta', (json, entityID, returnJSON)=> {
-    GotoNPlay.editPlaylistMeta(json.id, json.mt, (err, result)=> {
+  ServiceSock.sdef('editPlaylistMeta', (data, entityID, returnJSON)=> {
+    GotoNPlay.editPlaylistMeta(data.id, data.mt, (err, result)=> {
       returnJSON(false, {r: result});
     });
   },
@@ -95,8 +100,8 @@ function Service(Me, NoService) {
   });
 
   // Append an track to the existed list.
-  ServiceSock.sdef('addPlaylistTracks', (json, entityID, returnJSON)=> {
-    GotoNPlay.editPlaylistMeta(json.id, json.mt, (err, result)=> {
+  ServiceSock.sdef('addPlaylistTracks', (data, entityID, returnJSON)=> {
+    GotoNPlay.editPlaylistMeta(data.id, data.mt, (err, result)=> {
       returnJSON(false, {r: result});
     });
   },
@@ -108,8 +113,8 @@ function Service(Me, NoService) {
   });
 
   // Create a catogory that contains playlists
-  ServiceSock.sdef('createCatogory', (json, entityID, returnJSON)=> {
-    GotoNPlay.createCatogory(json.mt, (err, result)=> {
+  ServiceSock.sdef('createCatogory', (data, entityID, returnJSON)=> {
+    GotoNPlay.createCatogory(data.mt, (err, result)=> {
       returnJSON(false, {r: result});
     });
   },
@@ -121,8 +126,8 @@ function Service(Me, NoService) {
   });
 
   // edit a catogory that contains playlists
-  ServiceSock.sdef('editCatogory', (json, entityID, returnJSON)=> {
-    GotoNPlay.editCatogory(json.id, json.mt, (err)=> {
+  ServiceSock.sdef('editCatogory', (data, entityID, returnJSON)=> {
+    GotoNPlay.editCatogory(data.id, data.mt, (err)=> {
       returnJSON(false, {e: err});
     });
   },
@@ -134,8 +139,8 @@ function Service(Me, NoService) {
   });
 
   // edit a catogory that contains playlists
-  ServiceSock.sdef('addPlaylistTags', (json, entityID, returnJSON)=> {
-    GotoNPlay.addPlaylistTags(json.tg, (err)=> {
+  ServiceSock.sdef('addPlaylistTags', (data, entityID, returnJSON)=> {
+    GotoNPlay.addPlaylistTags(data.tg, (err)=> {
       returnJSON(false, {e: err});
     });
   },
@@ -147,8 +152,8 @@ function Service(Me, NoService) {
   });
 
   // edit a catogory that contains playlists
-  ServiceSock.sdef('removePlaylistTags', (json, entityID, returnJSON)=> {
-    GotoNPlay.removePlaylistTags(json.tg, (err)=> {
+  ServiceSock.sdef('removePlaylistTags', (data, entityID, returnJSON)=> {
+    GotoNPlay.removePlaylistTags(data.tg, (err)=> {
       returnJSON(false, {e: err});
     });
   },
@@ -163,7 +168,7 @@ function Service(Me, NoService) {
   // ServiceSocket.onConnect, in case on new connection.
   ServiceSock.on('connect', (entityID, callback) => {
     online_count++;
-    ServiceSock.broadcastEvent("OnlineCountChanged", {c: online_count});
+    ServiceSock.emitAll("OnlineCountChanged", {c: online_count});
     callback(false);
   });
   // ServiceSocket.onClose, in case connection close.
