@@ -37,8 +37,15 @@ function gotoandPlay(Me, NoService) {
           callback(err);
       }
       else {
-        if(callback)
-          callback(err);
+        if(!fs.existsSync('./chatroom_id')) {
+          fs.writeFileSync('./chatroom_id', '');
+          if(callback)
+            callback(err);
+        }
+        else {
+          if(callback)
+            callback(err);
+        }
       }
 
     });
@@ -146,6 +153,26 @@ function gotoandPlay(Me, NoService) {
   this.getPrograms = (callback)=> {
     try {
       let result = JSON.parse(fs.readFileSync('./timetable.json', 'utf8'));
+      callback(false, result);
+    }
+    catch(err) {
+      callback(err);
+    }
+  };
+
+  this.updateChatroomId = (data, callback)=> {
+    try {
+      fs.writeFileSync('./chatroom_id', data);
+      callback(false);
+    }
+    catch(err) {
+      callback(err);
+    }
+  };
+
+  this.getChatroomId = (callback)=> {
+    try {
+      let result = fs.readFileSync('./chatroom_id', 'utf8');
       callback(false, result);
     }
     catch(err) {
