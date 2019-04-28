@@ -225,5 +225,7 @@
       }
     }
   },
-  "settings": {}
+  "settings": {
+    "react_path": ""
+  }
 }

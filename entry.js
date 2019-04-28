@@ -16,6 +16,13 @@ function Service(Me, NoService) {
 
   // Start defining servicefunctions
   // Get programs.
+  ServiceSock.def('updateReact', (data, entityID, returnJSON)=> {
+    GotoNPlay.updateFromGitAndComplieReact((err, result)=> {
+      returnJSON(false, result);
+    });
+  });
+
+  // Get programs.
   ServiceSock.def('getPrograms', (data, entityID, returnJSON)=> {
     GotoNPlay.getPrograms((err, result)=> {
       returnJSON(false, result);

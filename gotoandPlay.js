@@ -7,6 +7,8 @@
 let models_dict = require('./models.json')
 const fs = require('fs');
 
+const { exec, execSync } = require('child_process');
+
 function gotoandPlay(Me, NoService) {
   let Settings = Me.Settings;
   let _models;
@@ -39,6 +41,21 @@ function gotoandPlay(Me, NoService) {
           callback(err);
       }
 
+    });
+  };
+
+  this.updateFromGitAndComplieReact = (callback)=> {
+    exec('chmod +x '+__dirname+'/update_react.sh' , (err, stdout, stderr) => {
+      if(err) {
+        callback(err, false);
+      }
+      else {
+        exec(__dirname+'/update_react.sh '+Settings.react_path, (err, stdout, stderr) => {
+          console.log(stdout);
+          console.log(stderr);
+          callback(err, err);
+        });
+      }
     });
   };
 
