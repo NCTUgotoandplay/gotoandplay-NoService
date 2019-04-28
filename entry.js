@@ -15,6 +15,23 @@ function Service(Me, NoService) {
   const GotoNPlay = new (require('./gotoandPlay'))(Me, NoService);
 
   // Start defining servicefunctions
+  // Get programs.
+  ServiceSock.def('getPrograms', (data, entityID, returnJSON)=> {
+    GotoNPlay.getPrograms((err, result)=> {
+      returnJSON(false, result);
+    });
+  });
+
+  // Get programs.
+  ServiceSock.def('updatePrograms', (data, entityID, returnJSON)=> {
+    GotoNPlay.updatePrograms(data, (err)=> {
+      if(!err) {
+        ServiceSock.emitAll("ProgramsChanged", data);
+      }
+      returnJSON(err, null);
+    });
+  });
+
   // Push notification.
   ServiceSock.def('pushNotification', (data, entityID, returnJSON)=> {
     ServiceSock.emitAll('Notification', data);

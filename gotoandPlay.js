@@ -5,6 +5,7 @@
 
 'use strict';
 let models_dict = require('./models.json')
+const fs = require('fs');
 
 function gotoandPlay(Me, NoService) {
   let Settings = Me.Settings;
@@ -28,8 +29,16 @@ function gotoandPlay(Me, NoService) {
   this.launch = (callback)=> {
     NoService.Database.Model.doBatchSetup(models_dict, (err, models)=> {
       _models = models;
-      if(callback)
-        callback(err);
+      if(!fs.existsSync('./timetable.json')) {
+        fs.writeFileSync('./timetable.json', '{"show_days": [0, 0, 0, 0, 0, 0, 0], "show_segments":[], "segments":{}}');
+        if(callback)
+          callback(err);
+      }
+      else {
+        if(callback)
+          callback(err);
+      }
+
     });
   };
 
@@ -105,6 +114,26 @@ function gotoandPlay(Me, NoService) {
 
   this.removePlaylistTags = ()=> {
 
+  };
+
+  this.updatePrograms = (data, callback)=> {
+    try {
+      fs.writeFileSync('./timetable.json', JSON.stringify(data));
+      callback(false);
+    }
+    catch(err) {
+      callback(err);
+    }
+  };
+
+  this.getPrograms = (callback)=> {
+    try {
+      let result = JSON.parse(fs.readFileSync('./timetable.json', 'utf8'));
+      callback(false, result);
+    }
+    catch(err) {
+      callback(err);
+    }
   };
 
   this.close = ()=> {
