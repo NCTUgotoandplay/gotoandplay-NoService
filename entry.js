@@ -23,7 +23,7 @@ function Service(Me, NoService) {
   });
 
   // Get programs.
-  ServiceSock.def('updatePrograms', (data, entityID, returnJSON)=> {
+  ServiceSock.sdef('updatePrograms', (data, entityID, returnJSON)=> {
     GotoNPlay.updatePrograms(data, (err)=> {
       if(!err) {
         ServiceSock.emitAll("ProgramsChanged", data);
