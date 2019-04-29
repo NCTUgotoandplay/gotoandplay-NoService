@@ -37,8 +37,8 @@ function gotoandPlay(Me, NoService) {
           callback(err);
       }
       else {
-        if(!fs.existsSync('./chatroom_id')) {
-          fs.writeFileSync('./chatroom_id', '');
+        if(!fs.existsSync('./chatroom.json')) {
+          fs.writeFileSync('./chatroom.json', '{"channel_id": null, "welcome_message":null}');
           if(callback)
             callback(err);
         }
@@ -160,9 +160,9 @@ function gotoandPlay(Me, NoService) {
     }
   };
 
-  this.updateChatroomId = (data, callback)=> {
+  this.updateChatroomSettings = (data, callback)=> {
     try {
-      fs.writeFileSync('./chatroom_id', data);
+      fs.writeFileSync('./chatroom.json', JSON.stringify(data));
       callback(false);
     }
     catch(err) {
@@ -170,9 +170,9 @@ function gotoandPlay(Me, NoService) {
     }
   };
 
-  this.getChatroomId = (callback)=> {
+  this.getChatroomSettings = (callback)=> {
     try {
-      let result = fs.readFileSync('./chatroom_id', 'utf8');
+      let result = JSON.parse(fs.readFileSync('./chatroom.json', 'utf8'));
       callback(false, result);
     }
     catch(err) {

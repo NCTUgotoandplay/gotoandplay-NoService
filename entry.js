@@ -16,15 +16,15 @@ function Service(Me, NoService) {
 
   // Start defining servicefunctions
   // Get programs.
-  ServiceSock.sdef('updateChatroomId', (data, entityID, returnJSON)=> {
-    GotoNPlay.updateChatroomId(data, (err, result)=> {
+  ServiceSock.sdef('updateChatroomSettings', (data, entityID, returnJSON)=> {
+    GotoNPlay.updateChatroomSettings(data, (err, result)=> {
       returnJSON(false, result);
     });
   });
 
   // Get programs.
-  ServiceSock.def('getChatroomId', (data, entityID, returnJSON)=> {
-    GotoNPlay.getChatroomId((err, result)=> {
+  ServiceSock.def('getChatroomSettings', (data, entityID, returnJSON)=> {
+    GotoNPlay.getChatroomSettings((err, result)=> {
       returnJSON(false, result);
     });
   });
