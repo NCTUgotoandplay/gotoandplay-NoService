@@ -43,8 +43,15 @@ function gotoandPlay(Me, NoService) {
             callback(err);
         }
         else {
-          if(callback)
-            callback(err);
+          if(!fs.existsSync('./suggested_info_cards.json')) {
+            fs.writeFileSync('./suggested_info_cards.json', '[]');
+            if(callback)
+              callback(err);
+          }
+          else {
+            if(callback)
+              callback(err);
+          }
         }
       }
 
@@ -178,6 +185,93 @@ function gotoandPlay(Me, NoService) {
     catch(err) {
       callback(err);
     }
+  };
+
+  this.createInformationCard = (meta, callback)=> {
+    let uuid = NoService.Library.Utilities.generateGUID();
+    if(!meta.Title) {
+      callback(new Error('Please input title for your information card.'));
+    }
+    else {
+      meta.CardId = uuid;
+      _models.InformationCard.create(meta, callback);
+    }
+  };
+
+  this.updateInformationCard = (meta, callback)=> {
+    if(!meta.CardId) {
+      callback(new Error('Please specify your card id for your information card.'));
+    }
+    else {
+      _models.InformationCard.update(meta, callback);
+    }
+  };
+
+  this.getInformationCard = (CardId, callback)=> {
+    if(!CardId) {
+      callback(new Error('Please specify your card id for your information card.'));
+    }
+    else {
+      _models.InformationCard.get(meta, callback);
+    }
+  };
+
+  this.getSuggestedInformationCards = (callback)=> {
+    try {
+      let result = JSON.parse(fs.readFileSync('./suggested_info_cards.json', 'utf8'));
+      callback(false, result);
+    }
+    catch(err) {
+      callback(err);
+    }
+  };
+
+  this.addSuggestedInformationCards = (CardId, callback)=> {
+    this.getSuggestedInformationCards((err, cards)=> {
+      if(err) {
+        callback(err);
+      }
+      else {
+        if(!cards.includes(CardId)) {
+          cards.push(CardId);
+          this.updateSuggestedInformationCards(cards, callback);
+        }
+      }
+    });
+  };
+
+  this.deleteSuggestedInformationCards = (CardId, callback)=> {
+    this.getSuggestedInformationCards((err, cards)=> {
+      if(err) {
+        callback(err);
+      }
+      else {
+        if(cards.includes(CardId)) {
+          let index = cards.indexOf(payload.data);
+          if (index > -1) {
+            cards.splice(index, 1);
+          }
+          this.updateSuggestedInformationCards(cards, callback);
+        }
+        else {
+          callback(false);
+        }
+      }
+    });
+  };
+
+  this.updateSuggestedInformationCards = (data, callback)=> {
+    try {
+      fs.writeFileSync('./suggested_info_cards.json', JSON.stringify(data));
+      callback(false);
+    }
+    catch(err) {
+      callback(err);
+    }
+  };
+
+  this.getAllInformationCards = (callback)=> {
+    _models.InformationCard.getAll(callback);
   };
 
   this.close = ()=> {

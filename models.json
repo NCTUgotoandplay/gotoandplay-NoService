@@ -1,4 +1,19 @@
 {
+  "InformationCard": {
+    "model_type": "Object",
+    "do_timestamp": true,
+    "model_key": "CardId",
+    "structure": {
+      "CardId": "VARCHAR(255)",
+      "Title" : "VARCHAR(255)",
+      "Description" : "TEXT",
+      "ImageURL" : "TEXT",
+      "Expanded" : "INTEGER",
+      "Expandable" : "INTEGER",
+      "Link" : "TEXT"
+    }
+  },
+
   "Playlist": {
     "model_type": "Object",
     "do_timestamp": true,
