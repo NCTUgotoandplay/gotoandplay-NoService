@@ -212,7 +212,7 @@ function gotoandPlay(Me, NoService) {
       callback(new Error('Please specify your card id for your information card.'));
     }
     else {
-      _models.InformationCard.get(meta, callback);
+      _models.InformationCard.get(CardId, callback);
     }
   };
 

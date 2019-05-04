@@ -47,6 +47,12 @@ function Service(Me, NoService) {
     });
   });
 
+  ServiceSock.def('getInfoCard', (data, entityId, returnJSON)=> {
+    GotoNPlay.getInformationCard(data, (err, result)=> {
+      returnJSON(false, result);
+    });
+  });
+
   ServiceSock.sdef('createInfoCard', (data, entityId, returnJSON)=> {
     GotoNPlay.createInformationCard(data, (err, result)=> {
       returnJSON(false, err?err.toString():'OK');
