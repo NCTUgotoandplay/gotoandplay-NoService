@@ -247,7 +247,7 @@ function gotoandPlay(Me, NoService) {
       }
       else {
         if(cards.includes(CardId)) {
-          let index = cards.indexOf(payload.data);
+          let index = cards.indexOf(CardId);
           if (index > -1) {
             cards.splice(index, 1);
           }
