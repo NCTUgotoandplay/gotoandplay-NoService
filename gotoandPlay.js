@@ -31,30 +31,20 @@ function gotoandPlay(Me, NoService) {
   this.launch = (callback)=> {
     NoService.Database.Model.doBatchSetup(models_dict, (err, models)=> {
       _models = models;
+      if(callback)
+        callback(err);
       if(!fs.existsSync('./timetable.json')) {
         fs.writeFileSync('./timetable.json', '{"show_days": [0, 0, 0, 0, 0, 0, 0], "show_segments":[], "segments":{}}');
-        if(callback)
-          callback(err);
       }
-      else {
-        if(!fs.existsSync('./chatroom.json')) {
-          fs.writeFileSync('./chatroom.json', '{"channel_id": null, "welcome_message":null}');
-          if(callback)
-            callback(err);
-        }
-        else {
-          if(!fs.existsSync('./suggested_info_cards.json')) {
-            fs.writeFileSync('./suggested_info_cards.json', '[]');
-            if(callback)
-              callback(err);
-          }
-          else {
-            if(callback)
-              callback(err);
-          }
-        }
+      if(!fs.existsSync('./chatroom.json')) {
+        fs.writeFileSync('./chatroom.json', '{"channel_id": null, "welcome_message":null}');
       }
-
+      if(!fs.existsSync('./suggested_info_cards.json')) {
+        fs.writeFileSync('./suggested_info_cards.json', '[]');
+      }
+      if(!fs.existsSync('./about_us_info_card_id.json')) {
+        fs.writeFileSync('./about_us_info_card_id.json', '');
+      }
     });
   };
 
@@ -180,6 +170,26 @@ function gotoandPlay(Me, NoService) {
   this.getChatroomSettings = (callback)=> {
     try {
       let result = JSON.parse(fs.readFileSync('./chatroom.json', 'utf8'));
+      callback(false, result);
+    }
+    catch(err) {
+      callback(err);
+    }
+  };
+
+  this.updateAboutUsInfoCardId = (data, callback)=> {
+    try {
+      fs.writeFileSync('./about_us_info_card_id.json', JSON.stringify(data));
+      callback(false);
+    }
+    catch(err) {
+      callback(err);
+    }
+  };
+
+  this.getAboutUsInfoCardId = (callback)=> {
+    try {
+      let result = JSON.parse(fs.readFileSync('./about_us_info_card_id.json', 'utf8'));
       callback(false, result);
     }
     catch(err) {

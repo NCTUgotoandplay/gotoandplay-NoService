@@ -78,6 +78,19 @@ function Service(Me, NoService) {
     });
   });
   // Get programs.
+  ServiceSock.sdef('updateAboutUsInfoCardId', (data, entityId, returnJSON)=> {
+    GotoNPlay.updateAboutUsInfoCardId(data, (err, result)=> {
+      returnJSON(false, result);
+    });
+  });
+
+  // Get programs.
+  ServiceSock.def('getAboutUsInfoCardId', (data, entityId, returnJSON)=> {
+    GotoNPlay.getAboutUsInfoCardId((err, result)=> {
+      returnJSON(false, result);
+    });
+  });
+  // Get programs.
   ServiceSock.sdef('updateReact', (data, entityId, returnJSON)=> {
     GotoNPlay.updateFromGitAndComplieReact((err, result)=> {
       returnJSON(false, result);
