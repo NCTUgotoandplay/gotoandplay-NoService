@@ -45,6 +45,9 @@ function gotoandPlay(Me, NoService) {
       if(!fs.existsSync('./about_us_info_card_id.json')) {
         fs.writeFileSync('./about_us_info_card_id.json', '');
       }
+      if(!fs.existsSync('./audio.json')) {
+        fs.writeFileSync('./audio.json', '{"audio_source": null, "do_audio_source_alter":false, "alternative_audio_source": null}');
+      }
     });
   };
 
@@ -151,6 +154,26 @@ function gotoandPlay(Me, NoService) {
     try {
       let result = JSON.parse(fs.readFileSync('./timetable.json', 'utf8'));
       callback(false, result);
+    }
+    catch(err) {
+      callback(err);
+    }
+  };
+
+  this.getAudioSettings = (callback)=> {
+    try {
+      let result = JSON.parse(fs.readFileSync('./audio.json', 'utf8'));
+      callback(false, result);
+    }
+    catch(err) {
+      callback(err);
+    }
+  };
+
+  this.updateAudioSettings = (data, callback)=> {
+    try {
+      fs.writeFileSync('./audio.json', JSON.stringify(data));
+      callback(false);
     }
     catch(err) {
       callback(err);

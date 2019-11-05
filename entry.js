@@ -114,6 +114,23 @@ function Service(Me, NoService) {
     });
   });
 
+  // Get programs.
+  ServiceSock.sdef('updateAudioSettings', (data, entityId, returnJSON)=> {
+    GotoNPlay.updateAudioSettings(data, (err)=> {
+      if(!err) {
+        ServiceSock.emitAll("AudioSettingsChanged", data);
+      }
+      returnJSON(err, null);
+    });
+  });
+
+  // Get programs.
+  ServiceSock.sdef('getAudioSettings', (data, entityId, returnJSON)=> {
+    GotoNPlay.getAudioSettings((err, result)=> {
+      returnJSON(err, result);
+    });
+  });
+
   // Push notification.
   ServiceSock.def('pushNotification', (data, entityId, returnJSON)=> {
     ServiceSock.emitAll('Notification', data);
