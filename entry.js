@@ -125,7 +125,7 @@ function Service(Me, NoService) {
   });
 
   // Get programs.
-  ServiceSock.sdef('getAudioSettings', (data, entityId, returnJSON)=> {
+  ServiceSock.def('getAudioSettings', (data, entityId, returnJSON)=> {
     GotoNPlay.getAudioSettings((err, result)=> {
       returnJSON(err, result);
     });
