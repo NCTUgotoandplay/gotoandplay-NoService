@@ -282,12 +282,14 @@ function Service(Me, NoService) {
   // ServiceSocket.onConnect, in case on new connection.
   ServiceSock.on('connect', (entityId, callback) => {
     online_count++;
+    if(online_count<=0) online_count=1;
     ServiceSock.emitAll("OnlineCountChanged", online_count);
     callback(false);
   });
   // ServiceSocket.onClose, in case connection close.
   ServiceSock.on('close', (entityId, callback) => {
     online_count--;
+    if(online_count<=0) online_count=0;
     ServiceSock.emitAll("OnlineCountChanged", online_count);
     callback(false);
   });
